@@ -51,12 +51,10 @@ list_ele_t *new_element(char *s)
     list_ele_t *newh = malloc(sizeof(list_ele_t));
     if (!newh)
         return NULL;
-    char *str = strdup(s);
-    if (!str) {
+    if (!(newh->value = strdup(s))) {
         free(newh);
         return NULL;
     }
-    newh->value = str;
     return newh;
 }
 
