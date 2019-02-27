@@ -45,6 +45,21 @@ void q_free(queue_t *q)
     free(q);
 }
 
+/* Generate a new list_ele_t instance and populate it with given string. */
+list_ele_t *new_element(char *s)
+{
+    list_ele_t *newh = malloc(sizeof(list_ele_t));
+    if (!newh)
+        return NULL;
+    char *str = strdup(s);
+    if (!str) {
+        free(newh);
+        return NULL;
+    }
+    newh->value = str;
+    return newh;
+}
+
 /*
   Attempt to insert element at head of queue.
   Return true if successful.
@@ -54,16 +69,18 @@ void q_free(queue_t *q)
  */
 bool q_insert_head(queue_t *q, char *s)
 {
-    list_ele_t *newh;
-    /* What should you do if the q is NULL? */
-    newh = malloc(sizeof(list_ele_t));
-    /* Don't forget to allocate space for the string and copy it */
-    /* What if either call to malloc returns NULL? */
+    if (!q)
+        return false;
+    list_ele_t *newh = new_element(s);
+    if (!newh)
+        return false;
     newh->next = q->head;
     q->head = newh;
+    if (!q->size)
+        q->tail = newh;
+    q->size++;
     return true;
 }
-
 
 /*
   Attempt to insert element at tail of queue.
@@ -74,9 +91,19 @@ bool q_insert_head(queue_t *q, char *s)
  */
 bool q_insert_tail(queue_t *q, char *s)
 {
-    /* You need to write the complete code for this function */
-    /* Remember: It should operate in O(1) time */
-    return false;
+    if (!q)
+        return false;
+    list_ele_t *newh = new_element(s);
+    if (!newh)
+        return false;
+    newh->next = NULL;
+    if (!q->size)
+        q->head = newh;
+    else
+        q->tail->next = newh;
+    q->tail = newh;
+    q->size++;
+    return true;
 }
 
 /*

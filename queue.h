@@ -44,6 +44,9 @@ queue_t *q_new();
 */
 void q_free(queue_t *q);
 
+/* Generate a new list_ele_t instance and populate it with given string. */
+list_ele_t *new_element(char *s);
+
 /*
   Attempt to insert element at head of queue.
   Return true if successful.
